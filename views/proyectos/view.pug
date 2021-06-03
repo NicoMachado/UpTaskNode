@@ -1,0 +1,19 @@
+extends ..\layout 
+
+block contenido
+    .contenido-principal
+        h1 #{nombrePagina}
+
+        if errores 
+            each error in errores
+                .alerta=error.texto
+
+        h2  #{proyecto.nombre }
+        p   id: #{proyecto.id}
+        p   Url:  #{ proyecto.url }
+
+        // Acciones que se pueden realizar
+        .contenedor-acciones
+            a(href=`/proyectos/editar/${proyecto.id}` class="boton") Editar Proyecto 
+            button#eliminar-proyecto(type="button" class="boton eliminar") Eliminar Proyecto
+             

@@ -1,0 +1,27 @@
+{
+  "name": "uptasknodejs",
+  "version": "1.0.0",
+  "description": "Proyecto Uptask con Node y MVC",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js"
+  },
+  "author": "Nicolas Machado",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.11.1",
+    "mysql2": "^2.2.5",
+    "pug": "^3.0.2",
+    "sequelize": "^6.6.2",
+    "shortid": "^2.2.16",
+    "slug": "^5.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "babel-loader": "^8.2.2",
+    "nodemon": "^2.0.7",
+    "webpack": "^5.38.1"
+  }
+}
