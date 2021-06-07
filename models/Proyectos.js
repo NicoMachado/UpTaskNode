@@ -5,15 +5,15 @@ const db            = require('../config/db');
 
 const Proyectos = db.define('proyectos', {
     id : {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER(11),
         primaryKey: true,
         autoIncrement: true
     },
     nombre: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100)
     },
     //Manera Corta si hay un solo atributo..
-    url: Sequelize.STRING
+    url: Sequelize.STRING(100)
 
 }, {
     hooks: {

@@ -1,7 +1,13 @@
-const express = require('express');
-const routes = require('./routes')
-const path = require('path');
+const express       = require('express');
+const routes        = require('./routes')
+const path          = require('path');
 const bodyParser    = require('body-parser');
+const expressValidator = require('express-validator');
+const flash         = require('connect-flash');
+const session       = require('express-session');
+const cookieParser  = require('cookie-parser');
+const passport      = require('./config/passport');
+
 
 //helpers
 const helpers = require('./helpers');
@@ -16,6 +22,8 @@ const db = require('./config/db');
 
 //Importar el modelo
 require('./models/Proyectos')
+require('./models/Tareas')
+require('./models/Usuarios')
 
 //sync Actualiza la estructura de tablas en BBD
 db.sync()
@@ -24,6 +32,13 @@ db.sync()
 
 //crear una app de express
 const app = express();
+
+//Habillitar BodyParser para leer datos del formulario
+//app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: false}))
+app.use(express.json());
+
+//app.use(expressValidator());
 
 //path de Archivos Staticos
 app.use(express.static('public'));
@@ -34,14 +49,27 @@ app.set('view engine', 'pug')
 //Añadir la carpeta de las vistas
 app.set('views', path.join(__dirname, './views'))
 
+//Agregar flash messages
+app.use(flash());
+
+app.use(cookieParser());
+
+//Sesiones nos permite navegar
+app.use(session({
+    secret: 'clustercatamarca',
+    resave: false,
+    saveUninitialized: false
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Pasar vardump a la aplicacion
 app.use((req, res, next) => {
     res.locals.vardump = helpers.vardump;
+    res.locals.mensajes = req.flash();
     next();
 })
-
-//Habillitar BodyParser para leer datos del formulario
-app.use(bodyParser.urlencoded({extended: true}))
 
 app.use('/', routes());
 
