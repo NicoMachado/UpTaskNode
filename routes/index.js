@@ -12,31 +12,51 @@ const authController    = require('../controllers/authController');
 
 module.exports = function(){
     //Ruta para el Home (use toma todos los verbos)
-    router.get('/', proyectosController.proyectosHome );
-    router.get('/nuevo-proyecto', proyectosController.proyectosNuevo)
+    router.get('/', 
+        authController.usuarioAutenticado,
+        proyectosController.proyectosHome 
+    );
+    router.get('/nuevo-proyecto', 
+        authController.usuarioAutenticado,
+        proyectosController.proyectosNuevo)
     router.post('/nuevo-proyecto', 
+        authController.usuarioAutenticado,
         body('nombre').not().isEmpty().trim().escape(),
         proyectosController.nuevoProyecto);
 
     //Listar Proyecto        s
-    router.get('/proyectos/:url', proyectosController.proyectoPorUrl);
+    router.get('/proyectos/:url', 
+        authController.usuarioAutenticado,
+        proyectosController.proyectoPorUrl);
     //Editar Proyecto
-    router.get('/proyectos/editar/:id', proyectosController.proyectosEditar)
+    router.get('/proyectos/editar/:id', 
+        authController.usuarioAutenticado,
+        proyectosController.proyectosEditar)
+    
     router.post('/nuevo-proyecto/:id', 
+        authController.usuarioAutenticado,
         body('nombre').not().isEmpty().trim().escape(),
         proyectosController.actualizarProyecto);
 
     //Eliminiar Proyecto
-    router.delete('/proyectos/:url', proyectosController.eliminarProyecto);
+    router.delete('/proyectos/:url', 
+        authController.usuarioAutenticado,
+        proyectosController.eliminarProyecto);
 
     //Tareas 
     //Alta
-    router.post('/proyectos/:url', tareasController.agregarTarea);
+    router.post('/proyectos/:url', 
+        authController.usuarioAutenticado,
+        tareasController.agregarTarea);
 
     //Actualizar Tarea
-    router.patch('/tareas/:id', tareasController.cambiarEstadoTarea)
+    router.patch('/tareas/:id', 
+        authController.usuarioAutenticado,
+        tareasController.cambiarEstadoTarea)
     //Eliminar Tarea
-    router.delete('/tareas/:id', tareasController.eliminarTarea)
+    router.delete('/tareas/:id', 
+        authController.usuarioAutenticado,
+        tareasController.eliminarTarea)
 
 
     //Crear Nueva Cuenta
@@ -48,9 +68,9 @@ module.exports = function(){
     router.post('/iniciar-sesion', authController.autenticarUsuario);
 
 
-    router.get('/nosotros', (req, res) =>{
-        res.send('nosotros');
-    })
+    //Cerrar Sesion
+    router.get('/cerrar-sesion', authController.cerrarSesion);
+
 
     return router;
 }
