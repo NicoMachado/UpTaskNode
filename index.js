@@ -8,6 +8,8 @@ const session       = require('express-session');
 const cookieParser  = require('cookie-parser');
 const passport      = require('./config/passport');
 
+require('dotenv').config({path: 'variables.env'});
+
 
 //helpers
 const helpers = require('./helpers');
@@ -65,12 +67,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Pasar vardump a la aplicacion
+//Flash de Mensajes entre paginas
+
 app.use((req, res, next) => {
-    res.locals.vardump = helpers.vardump;
+    res.locals.vardump = helpers.vardump;   
     res.locals.mensajes = req.flash();
+    res.locals.usuario  = {...req.user} || null;
     next();
 })
 
 app.use('/', routes());
 
-app.listen(3000);
+//Servidor y Puerto
+const host = process.env.HOST || '0.0.0.0';
+const port = process.env.PORT || 3000;
+app.listen(port, host, () => {
+    console.log('>> El servidor esta funcionando!!');
+} );
