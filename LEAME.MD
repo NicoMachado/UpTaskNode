@@ -13,3 +13,6 @@ https://webpack.js.org/loaders/babel-loader/#usage
 
 
 LK
+git : https://github.com/NicoMachado/UpTaskNode
+heroku : https://uptasknode-nicomachado.herokuapp.com/
+
