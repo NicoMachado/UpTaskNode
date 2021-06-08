@@ -91,6 +91,7 @@ exports.confirmarCuenta = async (req, res) => {
     }
 
     usuario.activo = 1;
+    console.log(usuario);
     await usuario.save();
 
     req.flash('correcto', 'Cuenta activada correctamente');
