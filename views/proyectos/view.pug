@@ -8,7 +8,7 @@ block contenido
         //    each error in errores
         //        .alerta=error.texto
 
-        h2  #{proyecto.nombre }
+        h2  #{proyecto.nombre}
 
         form.agregar-tarea(action=`/proyectos/${proyecto.url}` method="POST")
             .campo 
