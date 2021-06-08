@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config({path: 'variables.env'});
 
 // // Option 1: Passing a connection URI
 // const sequelize = new Sequelize('sqlite::memory:') // Example for sqlite
@@ -11,13 +12,17 @@ const { Sequelize } = require('sequelize');
 // });
 
 // Option 2: Passing parameters separately (other dialects)
-const db = new Sequelize('UpTaskNode', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql' /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
-    port: 3306,
-    define: {
-        timestamps: false
+const db = new Sequelize(
+    process.env.BD_NOMBRE, 
+    process.env.BD_USER, 
+    process.env.BD_PASS, {
+        host: process.env.BD_HOST,
+        dialect: 'mysql' ,
+        port: process.env.BD_PORT,
+        define: {
+            timestamps: false
+        }
     }
-});
+);
 
 module.exports = db;

@@ -6,8 +6,13 @@ html(lang="es")
         .contenedor-formulario 
             h1 Iniciar Sesión en UpTask 
 
-            if error
-                p.alerta.error= error
+            if locals.mensajes
+                .alertas
+                    each categoria in Object.keys(locals.mensajes)
+                        each error in mensajes[categoria]
+                            .alerta(class=`${categoria}`)
+                                p= error
+
 
             form#formulario.caja.caja-login(method="POST" action="/iniciar-sesion") 
                 .campo  
@@ -21,6 +26,7 @@ html(lang="es")
                 .campo.enviar 
                     input.boton(type="submit" value="Iniciar Sesión")
 
-                .campo 
+                .campo.acciones 
                     a(href="/crear-cuenta") Crear Cuenta
+                    a(href="/restablecer") Olvidaste tu contraseña ?
                     
