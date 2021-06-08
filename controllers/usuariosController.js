@@ -43,11 +43,13 @@ exports.crearCuenta = async (req, res) => {
         });
     
         //Redirigir al Usuario
-        req.falsh('correcto', 'Enviamos un correo, revisa tu bandeja de entrada!')
+        req.flash('correcto', 'Enviamos un correo, revisa tu bandeja de entrada!')
         res.redirect('/iniciar-sesion');
        
     } catch (error) {
+        console.log(error);
         req.flash('error', error.errors.map(error => error.message))
+
         res.render('crearCuenta', {
             mensajes: req.flash(),
             nombrePagina: 'Crear cuenta de UpTask',
@@ -82,16 +84,17 @@ exports.formRestablecerPassword = (req, res) => {
 }
 
 exports.confirmarCuenta = async (req, res) => {
-    const usuario = Usuarios.findOne({where: {
-        email: req.params.correo
-    }})    
+    const usuario = await Usuarios.findOne({
+        where: {
+            email: req.params.correo
+        }
+    })    
     if (!usuario) {
         req.flash('error', 'No valido!!');
         res.redirect('/crear-cuenta')
     }
 
     usuario.activo = 1;
-    console.log(usuario);
     await usuario.save();
 
     req.flash('correcto', 'Cuenta activada correctamente');
